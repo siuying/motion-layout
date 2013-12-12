@@ -1,8 +1,11 @@
 module Motion
   class Layout
+    attr_accessor :constraints
+
     def initialize(&block)
       @verticals   = []
       @horizontals = []
+      @constraints = []
       @metrics     = {}
 
       yield self
@@ -39,11 +42,11 @@ module Motion
 
       views = @subviews.merge("superview" => @view)
 
-      constraints = []
-      constraints += @verticals.map do |vertical|
+      @constraints = []
+      @constraints += @verticals.map do |vertical|
         NSLayoutConstraint.constraintsWithVisualFormat("V:#{vertical}", options:NSLayoutFormatAlignAllCenterX, metrics:@metrics, views:views)
       end
-      constraints += @horizontals.map do |horizontal|
+      @constraints += @horizontals.map do |horizontal|
         NSLayoutConstraint.constraintsWithVisualFormat("H:#{horizontal}", options:NSLayoutFormatAlignAllCenterY, metrics:@metrics, views:views)
       end
 
